@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from user_app.email import CreateTodo
 from .forms import UserRegistrationForm, TodoForm
-from .models import Todo
 
 
 @login_required

@@ -31,7 +31,9 @@ class TodoForm(forms.ModelForm):
         model = Todo
         fields = ['title', 'description', 'due_date', 'priority', 'assigned_to']
         widgets = {
-            'due_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'min': timezone.now().strftime('%Y-%m-%d')}),
+            'due_date': forms.DateInput(attrs={
+                'type': 'date', 'class': 'form-control', 'min': timezone.now().strftime('%Y-%m-%d')
+            }),
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'priority': forms.Select(attrs={'class': 'form-control'}),

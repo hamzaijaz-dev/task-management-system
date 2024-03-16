@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from unittest.mock import patch
 
+
 class HomeViewTestCase(TestCase):
 
     @classmethod
@@ -36,8 +37,16 @@ class HomeViewTestCase(TestCase):
     def test_home_view_with_todos(self, mock_get):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = {
-            'my_todos': [{'id': 1, 'title': 'Test Todo 1', 'description': 'Test Description 1', 'due_date': '2024-03-20', 'status': 'PENDING'}],
-            'assigned_todos': [{'id': 2, 'title': 'Test Todo 2', 'description': 'Test Description 2', 'due_date': '2024-03-21', 'status': 'IN_PROGRESS'}]
+            'my_todos': [
+                {'id': 1, 'title': 'Test Todo 1', 'description': 'Test Description 1',
+                 'due_date': '2024-03-20', 'status': 'PENDING'
+                 }
+            ],
+            'assigned_todos': [
+                {'id': 2, 'title': 'Test Todo 2', 'description': 'Test Description 2',
+                 'due_date': '2024-03-21', 'status': 'IN_PROGRESS'
+                 }
+            ]
         }
         self.client.login(username='test_user', password='test_password')
         response = self.client.get(reverse('home'))
