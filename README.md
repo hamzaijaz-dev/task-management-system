@@ -25,27 +25,32 @@ This Task Management System is a web application built using Django, FastAPI, an
     ```bash
    python3 -m venv venv
    source venv/bin/activate
+   ```
 3. Install dependencies:
     ```bash
    pip install -r requirements.txt
+   ```
 4. Migrate the database:
    ```bash
    cd user_app
    python manage.py migrate
-
+   ```
 ### Running the Application
 1. Start the Django server:
    ```bash
     cd user_app
     python manage.py runserver
+   ```
 2. Start the Celery worker:
    ```bash
     cd user_app
     celery -A user_app worker --loglevel=info
+   ```
 3. Start the FastAPI server:
    ```bash
     cd api_list
     uvicorn main:app --reload --port=8001
+   ```
 
 ### Usage
 Access the web application at http://localhost:8000.
@@ -56,4 +61,9 @@ Run unit tests:
    ```bash
     cd user_app
     python manage.py test
+   ```
+
+<img src="https://github.com/hamzaijaz-dev/task-management-system/blob/main/assets/fastapi.png" alt="FastAPI Docs">
+<br>
+<img src="https://github.com/hamzaijaz-dev/task-management-system/blob/main/assets/django.png" alt="Django">
 
