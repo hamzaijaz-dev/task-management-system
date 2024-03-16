@@ -1,0 +1,181 @@
+{% extends 'todo/index.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+    form{
+        width: 100%;
+    }
+</style>
+    <div class="container">
+    <div class="row">
+        <!-- Left Section - Form -->
+        <div class="col-lg-4">
+            <form action="{% url 'home' %}" method="post" class="create-todo-form">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary mt-2">Add</button>
+            </form>
+        </div>
+        <!-- Center Section - My Todos Table -->
+        <div class="col-lg-8">
+            {% if my_todo_page %}
+            <h3 class="text-center">My Todos</h3>
+            <table id="todo-table1" class="table table-striped table-condensed">
+                <!-- Table Headers -->
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Priority</th>
+                        <th>Due date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <!-- Table Body -->
+                <tbody>
+                    {% for i in my_todo_page %}
+
+                    <tr>
+                        <td>{{ i.title }}</td>
+                        <td>{{ i.description }}</td>
+                        <td>{{ i.priority }}</td>
+                        <td>
+                            {% with date_string=i.due_date %}
+                                {{ date_string|slice:"0:10" }}
+                            {% endwith %}
+                        </td>
+                        <td>{{ i.status }}</td>
+                        <td>
+                            {% if i.status != 'completed' %}
+                            <button id="edit-todo" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editTodoModal_{{ i.id }}">Edit</button>
+                            <div class="modal fade" id="editTodoModal_{{ i.id }}" tabindex="-1" role="dialog" aria-labelledby="editTodoModalLabel1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editTodoModalLabel1">Update Item</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true" id="close-edit-modal">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="{% url 'update_todo' i.id %}" method="post" class="edit-todo-form">
+                                            {% csrf_token %}
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="title">Title:</label>
+                                                    <input type="text" name="title" value="{{ i.title }}" required class="form-control" id="title" size="40">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="description">Description:</label>
+                                                    <textarea name="description" cols="40" rows="10" class="form-control" required id="description" spellcheck="false">{{i.description}}</textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="status">Status:</label>
+                                                    <select name="status" class="form-control" id="status">
+                                                        <option value="open" {% if i.status == 'open' %}selected{% endif %}>Open</option>
+                                                        <option value="in_progress" {% if i.status == 'in_progress' %}selected{% endif %}>In-progress</option>
+                                                        <option value="completed" {% if i.status == 'completed' %}selected{% endif %}>Completed</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary" id="edit-todo-submit">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{% url 'delete_todo' i.id %}" id="delete-todo" class="btn btn-sm btn-danger">Delete</a>
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+            <br><br>
+             {% if assigned_todo_page %}
+            <h3 class="text-center">Assigned Todos</h3>
+            <table id="todo-table2" class="table table-striped table-condensed">
+                <!-- Table Headers -->
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Priority</th>
+                        <th>Due date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <!-- Table Body -->
+                <tbody>
+                    {% for i in assigned_todo_page %}
+                    <tr>
+                        <td>{{ i.title }}</td>
+                        <td>{{ i.description }}</td>
+                        <td>{{ i.priority }}</td>
+                        <td>
+                            {% with date_string=i.due_date %}
+                                {{ date_string|slice:"0:10" }}
+                            {% endwith %}
+                        </td>
+                        <td>{{ i.status }}</td>
+                        <td>
+                            {% if i.status != 'completed' %}
+                            <button id="edit-todo1" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#_editTodoModal_{{ i.id }}">Edit</button>
+                            <div class="modal fade" id="_editTodoModal_{{ i.id }}" tabindex="-1" role="dialog" aria-labelledby="editTodoModalLabel1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editTodoModalLabel1">Update Item</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true" id="close-edit-modal">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="{% url 'update_todo' i.id %}" method="post" class="edit-todo-form">
+                                            {% csrf_token %}
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="title">Title:</label>
+                                                    <input type="text" name="title" value="{{ i.title }}" required class="form-control" id="title" size="40">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="description">Description:</label>
+                                                    <textarea name="description" cols="40" rows="10" class="form-control" required id="description" spellcheck="false">{{i.description}}</textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="status">Status:</label>
+                                                    <select name="status" class="form-control" id="status">
+                                                        <option value="open" {% if i.status == 'open' %}selected{% endif %}>Open</option>
+                                                        <option value="in_progress" {% if i.status == 'in_progress' %}selected{% endif %}>In-progress</option>
+                                                        <option value="completed" {% if i.status == 'completed' %}selected{% endif %}>Completed</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary" id="edit-todo-submit">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
