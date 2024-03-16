@@ -1,5 +1,5 @@
 # Task Management System
-This Task Management System is a web application built using Django, FastAPI, and Celery. It allows users to create, update, delete, and assign tasks, with support for user authentication, asynchronous task processing, RESTful API integration, and comprehensive unit testing. It contains workflows to run sanity checks in the code.
+This Task Management System is a web-based solution constructed using Django, FastAPI, and Celery. Its functionality encompasses task creation, modification, deletion, and assignment, alongside features like user authentication, asynchronous task handling, RESTful API integration, and thorough unit testing. The system also incorporates workflows for conducting code sanity checks.
 
 ## Requirements
 - Python 3.x
@@ -16,7 +16,7 @@ This Task Management System is a web application built using Django, FastAPI, an
 
 **celery_tasks:** Celery task for asynchronous email notifications.
 
-**Sanity checks:** Github workflows on each push to verify the code quality.
+**Sanity checks:** GitHub workflows triggered with each code push, ensuring the maintenance of high code quality.
 
 ### Setup
 1. Clone the repository:
