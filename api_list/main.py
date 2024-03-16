@@ -1,7 +1,4 @@
 from fastapi import FastAPI, HTTPException, Depends
-from typing import List
-
-from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from database import get_db

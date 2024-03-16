@@ -1,8 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
-from unittest.mock import patch, MagicMock
-from .models import Todo
+from unittest.mock import patch
 
 class HomeViewTestCase(TestCase):
 

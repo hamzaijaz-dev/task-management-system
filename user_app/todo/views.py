@@ -1,9 +1,8 @@
 import requests
 from django.conf import settings
 from django.contrib.auth import logout
-from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from user_app.email import CreateTodo
@@ -42,7 +41,6 @@ def home(request):
     else:
         todos = []
 
-
     paginator = Paginator(todos['my_todos'], 4)
     page_number = request.GET.get("my_todo")
     my_todo_page = paginator.get_page(page_number)
@@ -51,8 +49,12 @@ def home(request):
     page_number = request.GET.get("assigned_todo")
     assigned_todo_page = paginator.get_page(page_number)
 
-    context = {"form": form, "my_todos": todos, "assigned_todos": todos, "my_todo_page": my_todo_page, "assigned_todo_page": assigned_todo_page}
+    context = {
+        "form": form, "my_todos": todos, "assigned_todos": todos, "my_todo_page": my_todo_page,
+        "assigned_todo_page": assigned_todo_page
+    }
     return render(request, "todo/todo_app.html", context)
+
 
 def register(request):
     """
@@ -76,7 +78,6 @@ def register(request):
 def logout_user(request):
     logout(request)
     return redirect("login")
-
 
 
 def update_todo(request, pk):
